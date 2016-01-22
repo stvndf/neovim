@@ -15,7 +15,6 @@ check_type_size("void *" SIZEOF_VOID_PTR)
 check_symbol_exists(_NSGetEnviron crt_externs.h HAVE__NSGETENVIRON)
 
 # Headers
-check_include_files(fcntl.h HAVE_FCNTL_H)
 check_include_files(iconv.h HAVE_ICONV_H)
 check_include_files(langinfo.h HAVE_LANGINFO_H)
 check_include_files(locale.h HAVE_LOCALE_H)
@@ -24,10 +23,9 @@ check_include_files(strings.h HAVE_STRINGS_H)
 check_include_files(sys/wait.h HAVE_SYS_WAIT_H)
 if(NOT HAVE_SYS_WAIT_H AND UNIX)
   # See if_cscope.c
-  message(SEND_ERROR "header sys/wait.h is required for UNIX")
+  message(SEND_ERROR "header sys/wait.h is required for Unix")
 endif()
 check_include_files(sys/utsname.h HAVE_SYS_UTSNAME_H)
-check_include_files(utime.h HAVE_UTIME_H)
 check_include_files(unistd.h HAVE_UNISTD_H)
 check_include_files(utime.h HAVE_UTIME_H)
 

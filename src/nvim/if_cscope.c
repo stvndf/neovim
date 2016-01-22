@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <inttypes.h>
+#include <fcntl.h>
 
 #include "nvim/vim.h"
 #include "nvim/ascii.h"
@@ -1841,9 +1842,7 @@ static void sig_handler(int s) {
  */
 static void cs_release_csp(size_t i, int freefnpp)
 {
-  /*
-   * Trying to exit normally (not sure whether it is fit to UNIX cscope
-   */
+  // Trying to exit normally (not sure whether it is fit to Unix cscope)
   if (csinfo[i].to_fp != NULL) {
     (void)fputs("q\n", csinfo[i].to_fp);
     (void)fflush(csinfo[i].to_fp);

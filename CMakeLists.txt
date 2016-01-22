@@ -40,16 +40,16 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(USE_FNAME_CASE TRUE)
 endif()
 
-# Set available build types for CMake GUIs.
-# A different build type can still be set by -DCMAKE_BUILD_TYPE=...
-set_property(CACHE CMAKE_BUILD_TYPE PROPERTY
-  STRINGS "Debug" "Dev" "Release" "MinSizeRel" "RelWithDebInfo")
-
 # Set default build type.
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "CMAKE_BUILD_TYPE not given, defaulting to 'Dev'.")
   set(CMAKE_BUILD_TYPE "Dev" CACHE STRING "Choose the type of build." FORCE)
 endif()
+
+# Set available build types for CMake GUIs.
+# A different build type can still be set by -DCMAKE_BUILD_TYPE=...
+set_property(CACHE CMAKE_BUILD_TYPE PROPERTY
+  STRINGS "Debug" "Dev" "Release" "MinSizeRel" "RelWithDebInfo")
 
 # If not in a git repo (e.g., a tarball) these tokens define the complete
 # version string, else it is combined with the result of `git describe`.
@@ -426,7 +426,11 @@ if(BUSTED_PRG)
   if(POLICY CMP0026)
     cmake_policy(SET CMP0026 OLD)
   endif()
-  get_target_property(TEST_LIBNVIM_PATH nvim-test LOCATION)
+  if(CMAKE_GENERATOR MATCHES "Visual Studio")
+    set(TEST_LIBNVIM_PATH ${CMAKE_BINARY_DIR}/lib/nvim-test.dll)
+  else()
+    get_target_property(TEST_LIBNVIM_PATH nvim-test LOCATION)
+  endif()
 
   configure_file(
     test/config/paths.lua.in
